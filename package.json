@@ -1,0 +1,38 @@
+{
+  "name": "fixerapinode",
+  "version": "1.0.0",
+  "description": "### The Fixer API is capable of delivering real-time exchange rate data for 170 world currencies. The API uses endpoint functionaly for getting the historic exchange rate data for all or a specific set of currencies, converting amounts from one currency to another, retrieving Time-Series data for one or multiple currencies and querying the API for daily fluctuation data.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest --passWithNoTests",
+    "start": "forever --minUptime 1000 --spinSleepTime 1000 -c 'nodemon --exitcrash' server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JasmeetSinghChhabra/fixerApiNode.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JasmeetSinghChhabra/fixerApiNode/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.16.4",
+    "forever": "^2.0.0",
+    "helmet": "^3.22.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.2",
+    "npm": "^6.14.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
+  },
+  "nodemonConfig": {
+    "delay": "3500"
+  },
+  "homepage": "https://github.com/JasmeetSinghChhabra/fixerApiNode#readme"
+}
