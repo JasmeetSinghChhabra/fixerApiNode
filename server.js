@@ -44,12 +44,9 @@ app.use("/api", (req, res, next) => {
       //
       let data = response.data.rates;
       var sd = JSON.stringify(data);
-      console.log(sd);
       let start = sd.indexOf("{");
       let end = sd.indexOf("}");
       let rates = sd.substring(start + 1, end).split(",");
-      console.log(rates);
-      console.log(rates.length);
       rates.forEach((element) => {
         let check = element.replace('"', "").replace('"', "").split(":");
         convertedRates.push(
