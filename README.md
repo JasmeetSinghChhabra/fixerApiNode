@@ -187,8 +187,11 @@ ZWL
 
 ## Postman Usage
 
-For testing thr API Using Postman
+#### For Testing thr API Using Postman
 http://data.fixer.io/api/2013-12-24
 ? access_key = API_KEY
-& base = GBP
+& base = EUR
 & symbols = USD,CAD,EUR
+
+
+http://data.fixer.io/api/2013-12-24?access_key=f5a9c4be0416317dcdeffc0dad390909& base=EUR& symbols=USD,CAD,EUR
