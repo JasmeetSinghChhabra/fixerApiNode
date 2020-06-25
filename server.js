@@ -16,14 +16,55 @@ app.use("/api", (req, res, next) => {
   console.log("Base : " + base);
   console.log("Target : " + target);
   let url = "http://data.fixer.io/api/";
-  let access_key = "?access_key=f5a9c4be0416317dcdeffc0dad390909&base=";
-  url = url + date + access_key + base + "&symbols=" + target;
+  let API_KEY = "f5a9c4be0416317dcdeffc0dad390909";
+  url =
+    url +
+    date +
+    "?access_key=" +
+    API_KEY +
+    "&base=" +
+    base +
+    "&symbols=" +
+    target;
+  class Convertedrates {
+    constructor(currency, convertedRate) {
+      this.currency = currency;
+      this.convertedRate = convertedRate;
+    }
+  }
 
   axios
     .get(url)
     .then(function (response) {
-      // handle success
-      console.log(response);
+      let convertedRates = [];
+      //Commenting Functionality as it is restricted by this API Subscription plan
+      // target.forEach((e) => {
+      //   let url2 =
+      //     url +
+      //     "convert?access_key=" +
+      //     API_KEY +
+      //     "&from=" +
+      //     base +
+      //     "&to=" +
+      //     e +
+      //     "&amount=" +
+      //     amount;
+      //   axios.get(url2).then(function (response2) {
+      //     console.log(response2);
+      //     convertedRates.push(new Convertedrates(e, response2.info.rate));
+      //   });
+      // });
+
+      let result = {
+        success: response.data.success,
+        timestamp: response.data.timestamp,
+        historical: response.data.historical,
+        base: response.data.base,
+        date: response.data.date,
+        rates: response.data.rates,
+      };
+      console.log(result);
+      res.send(result);
     })
     .catch(function (error) {
       // handle error
