@@ -2,14 +2,16 @@
 const path = require("path");
 const express = require("express");
 const axios = require("axios");
+const { SSL_OP_EPHEMERAL_RSA } = require("constants");
+const fetchUrl = require("fetch").fetchUrl;
 
 const app = express();
 
 app.use("/api", (req, res, next) => {
-  var date = req.query.date;
-  var amount = req.query.amount;
-  var base = req.query.base;
-  var target = req.query.target;
+  let date = req.query.date;
+  let amount = parseInt(req.query.amount, 10);
+  let base = req.query.base;
+  let target = req.query.target;
 
   console.log("Date : " + date);
   console.log("Amount : " + amount);
@@ -33,35 +35,36 @@ app.use("/api", (req, res, next) => {
     }
   }
 
+  convertedRates = [];
+
+  function getPosition(string, subString, index) {
+    return string.split(subString, index).join(subString).length;
+  }
+  fetchUrl(url, function (error, meta, body) {
+    let ng = body.toString();
+    let start = getPosition(ng, "{", 2);
+    let end = ng.indexOf("}");
+    let rates = ng.substring(start + 1, end).split(",");
+    console.log(rates.length);
+    rates.forEach((element) => {
+      let check = element.replace('"', "").replace('"', "").split(":");
+      // console.log("Check : " + check[1]);
+      convertedRates.push(
+        new Convertedrates(check[0], parseFloat(check[1], 10) * amount)
+      );
+    });
+  });
+  convertedRates.forEach((e) => console.log("Data  :   " + e));
   axios
     .get(url)
     .then(function (response) {
-      let convertedRates = [];
-      //Commenting Functionality as it is restricted by this API Subscription plan
-      // target.forEach((e) => {
-      //   let url2 =
-      //     url +
-      //     "convert?access_key=" +
-      //     API_KEY +
-      //     "&from=" +
-      //     base +
-      //     "&to=" +
-      //     e +
-      //     "&amount=" +
-      //     amount;
-      //   axios.get(url2).then(function (response2) {
-      //     console.log(response2);
-      //     convertedRates.push(new Convertedrates(e, response2.info.rate));
-      //   });
-      // });
-
       let result = {
         success: response.data.success,
         timestamp: response.data.timestamp,
         historical: response.data.historical,
         base: response.data.base,
         date: response.data.date,
-        rates: response.data.rates,
+        convertedRates,
       };
       console.log(result);
       res.send(result);
